@@ -1,0 +1,14 @@
+package com.example.lutemooon.model;
+
+public class WhiteLutemon extends Lutemon {
+    public WhiteLutemon(String name) {
+        super(name, "White", 0, 0, 0);
+    }
+
+    public void setAttributes(int attack, int defense, int maxHealth) {
+        this.attack = attack;
+        this.defense = defense;
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+    }
+} 
