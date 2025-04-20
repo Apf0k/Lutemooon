@@ -59,14 +59,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="训练" />
+            android:text="Train" />
 
         <Button
             android:id="@+id/btnReturnHome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="返回宠物之家" />
+            android:text="Return to Home" />
     </LinearLayout>
 
 </LinearLayout> 

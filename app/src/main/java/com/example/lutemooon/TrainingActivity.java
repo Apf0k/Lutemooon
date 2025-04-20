@@ -31,7 +31,7 @@ public class TrainingActivity extends AppCompatActivity {
         trainingLutemon = storage.getTrainingLutemon();
         
         if (trainingLutemon == null) {
-            Toast.makeText(this, "训练场没有宠物", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The Training Ground is empty", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -57,27 +57,26 @@ public class TrainingActivity extends AppCompatActivity {
         }
 
         tvName.setText(trainingLutemon.getName());
-        tvColor.setText("颜色: " + trainingLutemon.getColor());
-        tvStats.setText(String.format("攻击: %d 防御: %d 生命: %d/%d",
+        tvColor.setText("Color: " + trainingLutemon.getColor());
+        tvStats.setText(String.format("ATK: %d DEF: %d HP: %d/%d",
                 trainingLutemon.getAttack(), trainingLutemon.getDefense(),
                 trainingLutemon.getCurrentHealth(), trainingLutemon.getMaxHealth()));
-        tvExperience.setText("经验: " + trainingLutemon.getExperience());
+        tvExperience.setText("EXP: " + trainingLutemon.getExperience());
         
-        // 根据颜色设置图片
         switch (trainingLutemon.getColor()) {
-            case "白色":
+            case "White":
                 ivLutemon.setImageResource(R.drawable.lutemon_white);
                 break;
-            case "绿色":
+            case "Green":
                 ivLutemon.setImageResource(R.drawable.lutemon_green);
                 break;
-            case "粉色":
+            case "Pink":
                 ivLutemon.setImageResource(R.drawable.lutemon_pink);
                 break;
-            case "橘色":
+            case "Orange":
                 ivLutemon.setImageResource(R.drawable.lutemon_orange);
                 break;
-            case "黑色":
+            case "Black":
                 ivLutemon.setImageResource(R.drawable.lutemon_black);
                 break;
         }
@@ -89,7 +88,7 @@ public class TrainingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 trainingLutemon.addExperience(1);
                 updateLutemonInfo();
-                Toast.makeText(TrainingActivity.this, "训练成功！经验+1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TrainingActivity.this, "Training complete! Gained 1 EXP", Toast.LENGTH_SHORT).show();
             }
         });
 

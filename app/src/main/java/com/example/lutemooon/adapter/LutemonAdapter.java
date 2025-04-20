@@ -46,10 +46,9 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonAdapter.LutemonV
                 lutemon.getCurrentHealth(), lutemon.getMaxHealth()));
         holder.tvExperience.setText("EXP: " + lutemon.getExperience());
         
-        // 设置选择状态
         holder.cbSelect.setChecked(selectedLutemons.contains(lutemon));
         
-        // 根据颜色设置图片
+        // Image adaptation
         switch (lutemon.getColor()) {
             case "White":
                 holder.ivLutemon.setImageResource(R.drawable.lutemon_white);
@@ -68,11 +67,10 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonAdapter.LutemonV
                 break;
         }
         
-        // 设置点击事件
         View.OnClickListener clickListener = v -> {
             boolean newState = !selectedLutemons.contains(lutemon);
             if (newState) {
-                selectedLutemons.clear(); // 只允许选择一个
+                selectedLutemons.clear(); // can only choose 1 Lutemon
                 selectedLutemons.add(lutemon);
             } else {
                 selectedLutemons.remove(lutemon);

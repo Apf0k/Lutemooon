@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
 
         btnMoveToTraining.setOnClickListener(v -> {
             if (selectedLutemon == null) {
-                Toast.makeText(this, "请选择一个宠物", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please select a Lutemon", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -58,15 +58,15 @@ public class HomeActivity extends AppCompatActivity {
                 selectedLutemon = null;
                 adapter.clearSelection();
                 adapter.notifyDataSetChanged();
-                Toast.makeText(this, "已移动到训练场", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Moved to Training Ground", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "训练场已有宠物", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Training Ground already has a Lutemon", Toast.LENGTH_SHORT).show();
             }
         });
 
         btnMoveToBattle.setOnClickListener(v -> {
             if (selectedLutemon == null) {
-                Toast.makeText(this, "请选择一个宠物", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please select a Lutemon", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -74,9 +74,9 @@ public class HomeActivity extends AppCompatActivity {
                 selectedLutemon = null;
                 adapter.clearSelection();
                 adapter.notifyDataSetChanged();
-                Toast.makeText(this, "已移动到战斗场", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Moved to Battle Arena", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "战斗场已满", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Battle Arena is full", Toast.LENGTH_SHORT).show();
             }
         });
     }

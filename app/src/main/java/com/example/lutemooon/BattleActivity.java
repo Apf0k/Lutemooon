@@ -50,7 +50,7 @@ public class BattleActivity extends AppCompatActivity {
         List<Lutemon> battleLutemons = storage.getBattleLutemons();
         
         if (battleLutemons.size() != 2) {
-            Toast.makeText(this, "战斗场需要两个精灵", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You need two Lutemons to enter the arena.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -64,21 +64,21 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        // 第一个精灵UI组件
+        // Lutemon 1 UI
         ivLutemon1 = findViewById(R.id.ivLutemon1);
         tvLutemon1Name = findViewById(R.id.tvLutemon1Name);
         tvLutemon1Color = findViewById(R.id.tvLutemon1Color);
         pbLutemon1Health = findViewById(R.id.pbLutemon1Health);
         tvLutemon1Health = findViewById(R.id.tvLutemon1Health);
         
-        // 第二个精灵UI组件
+        // Lutemon 2 UI
         ivLutemon2 = findViewById(R.id.ivLutemon2);
         tvLutemon2Name = findViewById(R.id.tvLutemon2Name);
         tvLutemon2Color = findViewById(R.id.tvLutemon2Color);
         pbLutemon2Health = findViewById(R.id.pbLutemon2Health);
         tvLutemon2Health = findViewById(R.id.tvLutemon2Health);
         
-        // 战斗日志和按钮
+        // Log
         tvBattleLog = findViewById(R.id.tvBattleLog);
         btnAttack = findViewById(R.id.btnAttack);
         btnStrike = findViewById(R.id.btnStrike);
@@ -88,54 +88,52 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void updateLutemonInfo() {
-        // 更新第一个精灵信息
+        // Lutemon 1
         tvLutemon1Name.setText(lutemon1.getName());
         tvLutemon1Color.setText(lutemon1.getColor());
         pbLutemon1Health.setMax(lutemon1.getMaxHealth());
         pbLutemon1Health.setProgress(lutemon1.getCurrentHealth());
         tvLutemon1Health.setText(lutemon1.getCurrentHealth() + "/" + lutemon1.getMaxHealth());
-        
-        // 根据颜色设置图片
+
         switch (lutemon1.getColor()) {
-            case "白色":
+            case "White":
                 ivLutemon1.setImageResource(R.drawable.lutemon_white);
                 break;
-            case "绿色":
+            case "Green":
                 ivLutemon1.setImageResource(R.drawable.lutemon_green);
                 break;
-            case "粉色":
+            case "Pink":
                 ivLutemon1.setImageResource(R.drawable.lutemon_pink);
                 break;
-            case "橘色":
+            case "Orange":
                 ivLutemon1.setImageResource(R.drawable.lutemon_orange);
                 break;
-            case "黑色":
+            case "Black":
                 ivLutemon1.setImageResource(R.drawable.lutemon_black);
                 break;
         }
         
-        // 更新第二个精灵信息
+        // Lutemon 2
         tvLutemon2Name.setText(lutemon2.getName());
         tvLutemon2Color.setText(lutemon2.getColor());
         pbLutemon2Health.setMax(lutemon2.getMaxHealth());
         pbLutemon2Health.setProgress(lutemon2.getCurrentHealth());
         tvLutemon2Health.setText(lutemon2.getCurrentHealth() + "/" + lutemon2.getMaxHealth());
         
-        // 根据颜色设置图片
         switch (lutemon2.getColor()) {
-            case "白色":
+            case "White":
                 ivLutemon2.setImageResource(R.drawable.lutemon_white);
                 break;
-            case "绿色":
+            case "Green":
                 ivLutemon2.setImageResource(R.drawable.lutemon_green);
                 break;
-            case "粉色":
+            case "Pink":
                 ivLutemon2.setImageResource(R.drawable.lutemon_pink);
                 break;
-            case "橘色":
+            case "Orange":
                 ivLutemon2.setImageResource(R.drawable.lutemon_orange);
                 break;
-            case "黑色":
+            case "Black":
                 ivLutemon2.setImageResource(R.drawable.lutemon_black);
                 break;
         }
@@ -145,15 +143,15 @@ public class BattleActivity extends AppCompatActivity {
         btnAttack.setOnClickListener(v -> performNormalAttack());
         btnStrike.setOnClickListener(v -> performHeavyAttack());
         btnEndBattle.setOnClickListener(v -> {
-            addBattleLog("-战斗被停止-");
-            addBattleLog("-没有人胜利-");
+            addBattleLog("-!Battle over!-");
+            addBattleLog("-The battle was called off-");
             storage.clearBattle();
             finish();
         });
     }
 
     private void playAttackAnimation(boolean isPlayer1Attacking, boolean isHeavyAttack, Runnable onAnimationEnd) {
-        // 获取起点和终点的位置
+        // Get the start and end positions.
         int[] startLocation = new int[2];
         int[] endLocation = new int[2];
         
@@ -165,35 +163,35 @@ public class BattleActivity extends AppCompatActivity {
             ivLutemon1.getLocationInWindow(endLocation);
         }
 
-        // 设置攻击图标的初始位置
+        // Set the initial position of the attack icon.
         ivAttackIcon.setX(startLocation[0] + ivLutemon1.getWidth() / 2f - ivAttackIcon.getWidth() / 2f);
         ivAttackIcon.setY(startLocation[1] + ivLutemon1.getHeight() / 2f - ivAttackIcon.getHeight() / 2f);
         ivAttackIcon.setVisibility(View.VISIBLE);
         
-        // 如果是重击，让图标旋转
+        // anim of Strike icon
         if (isHeavyAttack) {
             ObjectAnimator rotation = ObjectAnimator.ofFloat(ivAttackIcon, "rotation", 0f, 360f);
             rotation.setDuration(600);
             rotation.start();
         }
 
-        // 创建X轴动画
+        // anim X
         ObjectAnimator animX = ObjectAnimator.ofFloat(ivAttackIcon, "x", 
             startLocation[0] + ivLutemon1.getWidth() / 2f - ivAttackIcon.getWidth() / 2f,
             endLocation[0] + ivLutemon2.getWidth() / 2f - ivAttackIcon.getWidth() / 2f);
         
-        // 创建Y轴动画
+        // anim Y
         ObjectAnimator animY = ObjectAnimator.ofFloat(ivAttackIcon, "y",
             startLocation[1] + ivLutemon1.getHeight() / 2f - ivAttackIcon.getHeight() / 2f,
             endLocation[1] + ivLutemon2.getHeight() / 2f - ivAttackIcon.getHeight() / 2f);
 
-        // 设置动画属性
+        // anim properties
         animX.setDuration(600);
         animY.setDuration(600);
         animX.setInterpolator(new AccelerateDecelerateInterpolator());
         animY.setInterpolator(new AccelerateDecelerateInterpolator());
 
-        // 添加动画结束监听器
+        // anim end listener
         animX.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -204,7 +202,7 @@ public class BattleActivity extends AppCompatActivity {
             }
         });
 
-        // 开始动画
+        // anim start
         animX.start();
         animY.start();
     }
@@ -214,25 +212,25 @@ public class BattleActivity extends AppCompatActivity {
             return;
         }
 
-        // 禁用按钮，防止动画播放时重复点击
+        // Disable the button              prevent repeated clicks during the anim
         btnAttack.setEnabled(false);
         btnStrike.setEnabled(false);
         
-        // 播放玩家攻击动画
+        // Play the player's attack animation
         playAttackAnimation(true, false, () -> {
-            // 计算伤害
+            // Calculate the damage
             int damage = lutemon1.calculateAttackDamage(false);
             String result = lutemon1.getAttackResult(damage, lutemon2.getDefense());
             int actualDamage = lutemon2.calculateDamageTaken(damage, lutemon2.getDefense());
             
             lutemon2.takeDamage(actualDamage);
-            addBattleLog(lutemon1.getName() + " 使用了普通攻击！");
+            addBattleLog(lutemon1.getName() + "used a normal attack!");
             addBattleLog(result);
-            addBattleLog("造成了 " + actualDamage + " 点伤害！");
+            addBattleLog("It dealt " + actualDamage + " damage!");
             updateLutemonInfo();
             
             if (!isBattleOver()) {
-                // 延迟一下再播放对手的攻击动画
+                // delay anim
                 handler.postDelayed(() -> {
                     performOpponentAttack();
                 }, 500);
@@ -248,27 +246,27 @@ public class BattleActivity extends AppCompatActivity {
             return;
         }
 
-        // 禁用按钮，防止动画播放时重复点击
+        // Disable the button              prevent repeated clicks during the anim
         btnAttack.setEnabled(false);
         btnStrike.setEnabled(false);
         
-        // 播放玩家重击动画
+        // Play the player's strike animation
         playAttackAnimation(true, true, () -> {
-            // 计算伤害
+            // Calculate the damage
             int damage = lutemon1.calculateAttackDamage(true);
             String result = lutemon1.getAttackResult(damage, lutemon2.getDefense());
             int actualDamage = lutemon2.calculateDamageTaken(damage, lutemon2.getDefense());
             
-            lutemon1.takeDamage(5); // 重击自身扣血
+            lutemon1.takeDamage(5); // Strike causes self-damage
             lutemon2.takeDamage(actualDamage);
-            addBattleLog(lutemon1.getName() + " 使用了重击！");
+            addBattleLog(lutemon1.getName() + "used Heavy Strike!");
             addBattleLog(result);
-            addBattleLog("造成了 " + actualDamage + " 点伤害！");
-            addBattleLog(lutemon1.getName() + " 受到了5点反伤！");
+            addBattleLog("It dealt " + actualDamage + " damage!");
+            addBattleLog(lutemon1.getName() + " lost 5 HP as the cost!");
             updateLutemonInfo();
             
             if (!isBattleOver()) {
-                // 延迟一下再播放对手的攻击动画
+                // anim delay
                 handler.postDelayed(() -> {
                     performOpponentAttack();
                 }, 500);
@@ -280,29 +278,29 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void performOpponentAttack() {
-        // 随机选择攻击方式
+        // Randomly choose an attack type
         boolean useStrike = Math.random() < 0.5;
         
-        // 播放对手攻击动画
+        // anim
         playAttackAnimation(false, useStrike, () -> {
             int damage = lutemon2.calculateAttackDamage(useStrike);
             String result = lutemon2.getAttackResult(damage, lutemon1.getDefense());
             int actualDamage = lutemon1.calculateDamageTaken(damage, lutemon1.getDefense());
             
             if (useStrike) {
-                lutemon2.takeDamage(5); // 重击自身扣血
+                lutemon2.takeDamage(5); // Strike causes self-damage
             }
             lutemon1.takeDamage(actualDamage);
             
-            addBattleLog(lutemon2.getName() + (useStrike ? " 使用了重击！" : " 使用了普通攻击！"));
+            addBattleLog(lutemon2.getName() + (useStrike ? " used Heavy Strike!" : " used a normal attack!"));
             addBattleLog(result);
-            addBattleLog("造成了 " + actualDamage + " 点伤害！");
+            addBattleLog("It dealt " + actualDamage + " damage!");
             if (useStrike) {
-                addBattleLog(lutemon2.getName() + " 受到了5点反伤！");
+                addBattleLog(lutemon2.getName() + " lost 5 HP as the cost!");
             }
             updateLutemonInfo();
             
-            // 重新启用按钮
+            // Re-enable the button
             btnAttack.setEnabled(true);
             btnStrike.setEnabled(true);
         });
@@ -310,7 +308,7 @@ public class BattleActivity extends AppCompatActivity {
 
     private boolean isBattleOver() {
         if (!lutemon1.isAlive()) {
-            addBattleLog("战斗结束！" + lutemon2.getName() + " 获胜！");
+            addBattleLog("Battle over! " + lutemon2.getName() + " wins!");
             lutemon2.addExperience(1);
             disableAttackButtons();
             storage.clearBattle();
@@ -318,7 +316,7 @@ public class BattleActivity extends AppCompatActivity {
         }
         
         if (!lutemon2.isAlive()) {
-            addBattleLog("战斗结束！" + lutemon1.getName() + " 获胜！");
+            addBattleLog("Battle over! " + lutemon1.getName() + " wins!");
             lutemon1.addExperience(1);
             disableAttackButtons();
             storage.clearBattle();

@@ -11,26 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="宠物之家" />
+        android:text="Lutemon Home" />
 
     <Button
         android:id="@+id/btnCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="创建宠物" />
+        android:text="Go Catch Lutemon" />
 
     <Button
         android:id="@+id/btnTraining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="训练场" />
+        android:text="Training Ground" />
 
     <Button
         android:id="@+id/btnBattle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="战斗场" />
+        android:text="Battle Arena" />
 
 </LinearLayout>

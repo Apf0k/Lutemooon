@@ -26,12 +26,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="输入宠物名称" />
+        android:hint="Enter Lutemon name" />
 
     <Button
         android:id="@+id/btnCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="创建宠物" />
+        android:text="Save" />
 
 </LinearLayout> 

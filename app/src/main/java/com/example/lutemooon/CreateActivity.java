@@ -39,7 +39,7 @@ public class CreateActivity extends AppCompatActivity {
 
     private void generateRandomLutemon() {
         // Randomly select color
-        String[] colors = {"白色", "绿色", "粉色", "橘色", "黑色"};
+        String[] colors = {"White", "Green", "Pink", "Orange", "Black"};
         selectedColor = colors[random.nextInt(colors.length)];
 
         // Generate random stats
@@ -48,26 +48,26 @@ public class CreateActivity extends AppCompatActivity {
         maxHealth = random.nextInt(11) + 15; // 15-25
 
         // Update UI
-        String info = String.format("颜色: %s\n攻击力: %d\n防御力: %d\n生命值: %d",
+        String info = String.format("Color: %s\nATK: %d\nDEF: %d\nHP: %d",
                 selectedColor, attack, defense, maxHealth);
         tvLutemonInfo.setText(info);
 
         // Update Lutemon image based on color
         int imageResource;
         switch (selectedColor) {
-            case "白色":
+            case "White":
                 imageResource = R.drawable.lutemon_white;
                 break;
-            case "绿色":
+            case "Green":
                 imageResource = R.drawable.lutemon_green;
                 break;
-            case "粉色":
+            case "Pink":
                 imageResource = R.drawable.lutemon_pink;
                 break;
-            case "橘色":
+            case "Orange":
                 imageResource = R.drawable.lutemon_orange;
                 break;
-            case "黑色":
+            case "Black":
                 imageResource = R.drawable.lutemon_black;
                 break;
             default:
@@ -81,14 +81,14 @@ public class CreateActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
             if (name.isEmpty()) {
-                Toast.makeText(this, "请输入宠物名称", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Time to name your Lutemon!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             Lutemon newLutemon = createLutemon(name);
             Storage.getInstance().addLutemon(newLutemon);
             
-            Toast.makeText(this, "创建成功！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The Lutemon was sent to your Home!", Toast.LENGTH_SHORT).show();
             finish();
         });
     }
@@ -96,28 +96,28 @@ public class CreateActivity extends AppCompatActivity {
     private Lutemon createLutemon(String name) {
         Lutemon lutemon;
         switch (selectedColor) {
-            case "白色":
+            case "White":
                 lutemon = new WhiteLutemon(name);
                 ((WhiteLutemon) lutemon).setAttributes(attack, defense, maxHealth);
                 break;
-            case "绿色":
+            case "Green":
                 lutemon = new GreenLutemon(name);
                 ((GreenLutemon) lutemon).setAttributes(attack, defense, maxHealth);
                 break;
-            case "粉色":
+            case "Pink":
                 lutemon = new PinkLutemon(name);
                 ((PinkLutemon) lutemon).setAttributes(attack, defense, maxHealth);
                 break;
-            case "橘色":
+            case "Orange":
                 lutemon = new OrangeLutemon(name);
                 ((OrangeLutemon) lutemon).setAttributes(attack, defense, maxHealth);
                 break;
-            case "黑色":
+            case "Black":
                 lutemon = new BlackLutemon(name);
                 ((BlackLutemon) lutemon).setAttributes(attack, defense, maxHealth);
                 break;
             default:
-                throw new IllegalStateException("未知的颜色: " + selectedColor);
+                throw new IllegalStateException("Unknown: " + selectedColor);
         }
         return lutemon;
     }
