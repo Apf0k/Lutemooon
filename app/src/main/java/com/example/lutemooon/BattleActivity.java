@@ -209,86 +209,102 @@ public class BattleActivity extends AppCompatActivity {
 
     private void performNormalAttack() {
         if (isBattleOver()) {
+            disableAttackButtons();
             return;
         }
 
-        // Disable the button              prevent repeated clicks during the anim
         btnAttack.setEnabled(false);
         btnStrike.setEnabled(false);
         
-        // Play the player's attack animation
         playAttackAnimation(true, false, () -> {
-            // Calculate the damage
+            if (isBattleOver()) {
+                disableAttackButtons();
+                return;
+            }
+
             int damage = lutemon1.calculateAttackDamage(false);
             String result = lutemon1.getAttackResult(damage, lutemon2.getDefense());
             int actualDamage = lutemon2.calculateDamageTaken(damage, lutemon2.getDefense());
             
             lutemon2.takeDamage(actualDamage);
-            addBattleLog(lutemon1.getName() + "used a normal attack!");
+            addBattleLog(lutemon1.getName() + " used a normal attack!");
             addBattleLog(result);
             addBattleLog("It dealt " + actualDamage + " damage!");
             updateLutemonInfo();
             
-            if (!isBattleOver()) {
-                // delay anim
-                handler.postDelayed(() -> {
-                    performOpponentAttack();
-                }, 500);
-            } else {
-                btnAttack.setEnabled(true);
-                btnStrike.setEnabled(true);
+            if (isBattleOver()) {
+                disableAttackButtons();
+                return;
             }
+            
+            handler.postDelayed(() -> {
+                if (!isBattleOver()) {
+                    performOpponentAttack();
+                }
+            }, 500);
         });
     }
 
     private void performHeavyAttack() {
         if (isBattleOver()) {
+            disableAttackButtons();
             return;
         }
 
-        // Disable the button              prevent repeated clicks during the anim
         btnAttack.setEnabled(false);
         btnStrike.setEnabled(false);
         
-        // Play the player's strike animation
         playAttackAnimation(true, true, () -> {
-            // Calculate the damage
+            if (isBattleOver()) {
+                disableAttackButtons();
+                return;
+            }
+
             int damage = lutemon1.calculateAttackDamage(true);
             String result = lutemon1.getAttackResult(damage, lutemon2.getDefense());
             int actualDamage = lutemon2.calculateDamageTaken(damage, lutemon2.getDefense());
             
             lutemon1.takeDamage(5); // Strike causes self-damage
             lutemon2.takeDamage(actualDamage);
-            addBattleLog(lutemon1.getName() + "used Heavy Strike!");
+            addBattleLog(lutemon1.getName() + " used Heavy Strike!");
             addBattleLog(result);
             addBattleLog("It dealt " + actualDamage + " damage!");
             addBattleLog(lutemon1.getName() + " lost 5 HP as the cost!");
             updateLutemonInfo();
             
-            if (!isBattleOver()) {
-                // anim delay
-                handler.postDelayed(() -> {
-                    performOpponentAttack();
-                }, 500);
-            } else {
-                btnAttack.setEnabled(true);
-                btnStrike.setEnabled(true);
+            if (isBattleOver()) {
+                disableAttackButtons();
+                return;
             }
+            
+            handler.postDelayed(() -> {
+                if (!isBattleOver()) {
+                    performOpponentAttack();
+                }
+            }, 500);
         });
     }
 
     private void performOpponentAttack() {
-        // Randomly choose an attack type
+        if (isBattleOver()) {
+            disableAttackButtons();
+            return;
+        }
+
         boolean useStrike = Math.random() < 0.5;
         
-        // anim
         playAttackAnimation(false, useStrike, () -> {
+            if (isBattleOver()) {
+                disableAttackButtons();
+                return;
+            }
+
             int damage = lutemon2.calculateAttackDamage(useStrike);
             String result = lutemon2.getAttackResult(damage, lutemon1.getDefense());
             int actualDamage = lutemon1.calculateDamageTaken(damage, lutemon1.getDefense());
             
             if (useStrike) {
-                lutemon2.takeDamage(5); // Strike causes self-damage
+                lutemon2.takeDamage(5);
             }
             lutemon1.takeDamage(actualDamage);
             
@@ -300,30 +316,36 @@ public class BattleActivity extends AppCompatActivity {
             }
             updateLutemonInfo();
             
-            // Re-enable the button
-            btnAttack.setEnabled(true);
-            btnStrike.setEnabled(true);
+            if (isBattleOver()) {
+                disableAttackButtons();
+            } else {
+                btnAttack.setEnabled(true);
+                btnStrike.setEnabled(true);
+            }
         });
     }
 
     private boolean isBattleOver() {
+        boolean isOver = false;
+        
         if (!lutemon1.isAlive()) {
             addBattleLog("Battle over! " + lutemon2.getName() + " wins!");
             lutemon2.addExperience(1);
-            disableAttackButtons();
             storage.clearBattle();
-            return true;
-        }
-        
-        if (!lutemon2.isAlive()) {
+            isOver = true;
+        } else if (!lutemon2.isAlive()) {
             addBattleLog("Battle over! " + lutemon1.getName() + " wins!");
             lutemon1.addExperience(1);
-            disableAttackButtons();
             storage.clearBattle();
-            return true;
+            isOver = true;
         }
         
-        return false;
+        if (isOver) {
+            disableAttackButtons();
+            handler.removeCallbacksAndMessages(null); // Remove any pending attacks
+        }
+        
+        return isOver;
     }
 
     private void disableAttackButtons() {

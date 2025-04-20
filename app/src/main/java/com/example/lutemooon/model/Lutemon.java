@@ -34,12 +34,14 @@ public class Lutemon {
 
     // Setters
     public void setName(String name) { this.name = name; }
-    public void setCurrentHealth(int health) { this.currentHealth = health; }
+    public void setCurrentHealth(int health) { 
+        this.currentHealth = Math.min(Math.max(0, health), maxHealth);
+    }
     public void addExperience(int exp) { this.experience += exp; }
 
     // Battle methods
     public void takeDamage(int damage) {
-        currentHealth = Math.max(0, currentHealth - damage);
+        setCurrentHealth(Math.max(0, currentHealth - damage));
     }
 
     public void heal() {
